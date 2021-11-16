@@ -79,12 +79,18 @@ function romanNumeral(n){
 	const thousands = Math.floor(n/1000);
 	return new Array(thousands).fill('M').join('') + romanNumeral(n - thousands*1000);
 }
-romanNumeral.digits = ['', 'I', 'II', 'III', 'IV',
-			'V', 'VI', 'VII', 'VIII', 'IX']
+romanNumeral.digits = ['', 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX'];
+
+
+/** @param {number[]} arr */
+function sum(arr){
+	return arr.reduce((a, b) => a + b, 0);
+}
 
 // exports...
 
 module.exports = {
 	random: random,
 	romanNumeral: romanNumeral,
+	sum: sum,
 };
