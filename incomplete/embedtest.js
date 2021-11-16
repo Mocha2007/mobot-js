@@ -1,7 +1,9 @@
 const { MessageEmbed } = require('discord.js');
 const { SlashCommandBuilder } = require('@discordjs/builders');
-// https://discordjs.guide/popular-topics/embeds.html#using-the-embed-constructor
+var util = require("util"),
+http = require("http");
 
+// https://discordjs.guide/popular-topics/embeds.html#using-the-embed-constructor
 function embedMaker(){
 	// inside a command, event listener, etc.
 	const exampleEmbed = new MessageEmbed()
@@ -25,6 +27,31 @@ function embedMaker(){
 	return { embeds: [exampleEmbed] };
 }
 
+// https://stackoverflow.com/a/5801654/2579798
+function downloadWebpageTest(){
+	const options = {
+		host: "www.google.com",
+		port: 80,
+		path: "/"
+	};
+
+	let content = "";   
+
+	const req = http.request(options, res => {
+		res.setEncoding("utf8");
+		res.on("data", function (chunk) {
+			content += chunk;
+		});
+
+		res.on("end", function () {
+			util.log(content);
+		});
+	});
+
+	req.end(); // might need await for this... not sure.
+
+	return content;
+}
 
 module.exports = {
 	data: new SlashCommandBuilder()
