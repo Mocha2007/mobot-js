@@ -77,9 +77,9 @@ module.exports = {
 		.addNumberOption(option => option.setName('s1').setDescription('side A').setRequired(true))
 		.addNumberOption(option => option.setName('s2').setDescription('side B'))
 		.addNumberOption(option => option.setName('s3').setDescription('side C'))
-		.addNumberOption(option => option.setName('a1').setDescription('angle alpha'))
-		.addNumberOption(option => option.setName('a2').setDescription('angle beta'))
-		.addNumberOption(option => option.setName('a3').setDescription('angle gamma')),
+		.addNumberOption(option => option.setName('a1').setDescription('angle alpha (rad)'))
+		.addNumberOption(option => option.setName('a2').setDescription('angle beta (rad)'))
+		.addNumberOption(option => option.setName('a3').setDescription('angle gamma (rad)')),
 	async execute(interaction) {
 		const s1 = interaction.options.getNumber('s1');
 		const s2 = interaction.options.getNumber('s2');
