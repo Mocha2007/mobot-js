@@ -21,6 +21,7 @@ module.exports = {
 		const moonphase = Math.round(8*fraction) % 8;
 		const name = names[moonphase];
 		const e = emoji[moonphase];
-		return interaction.reply(`:${e}: ${name} (${Math.round(fraction*100)}%)`);
+		const p = Math.round(100*(1-Math.abs(2*fraction-1)));
+		return interaction.reply(`:${e}: ${name} (${p}%)`);
 	},
 };
