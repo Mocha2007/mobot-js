@@ -1,6 +1,7 @@
 const fs = require('fs');
 const { Client, Collection, Intents } = require('discord.js');
 const { token } = require('./config.json');
+const { log } = require('./log.js');
 
 const client = new Client({ intents: [Intents.FLAGS.GUILDS] });
 
@@ -27,6 +28,7 @@ client.on('interactionCreate', async interaction => {
 
 	try {
 		await command.execute(interaction);
+		log(interaction.commandName);
 	}
 	
 	catch (error){
