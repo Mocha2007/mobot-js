@@ -62,11 +62,9 @@ function triangleSolve(data){
 	// do we got a2, a3?
 	if (a2 && a3)
 		a1 = 180 - a2 - a3;
-	// TODO optimize beyond this...
 	// at this point we have one side (s1)
 	// and ALL three angles.
-	// use law of sines to find remaining sides/angles
-	// we KNOW we got side 1... let's try to get a2 and s2
+	// use law of sines to find remaining sides
 	s2 = (Math.sin(a2)/Math.sin(a1)) * s1;
 	s3 = (Math.sin(a3)/Math.sin(a1)) * s1;
 	return out();
