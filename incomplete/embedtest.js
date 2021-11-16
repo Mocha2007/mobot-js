@@ -44,7 +44,7 @@ function downloadWebpageTest(){
 		});
 
 		res.on("end", function () {
-			util.log(content);
+			// util.log(content);
 		});
 	});
 
