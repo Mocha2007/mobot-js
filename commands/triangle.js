@@ -15,20 +15,43 @@ function triangleSolve(data){
 	let a2 = data.a2;
 	/** @type {number} */
 	let a3 = data.a3;
+	const out = () => {
+		return {s1: s1, s2: s2, s3: s3, a1: a1, a2: a2, a3: a3};
+	}
 	// do law of cosines at first, if possible...
 	// SSS - one relevant case
 	if (s2 && s3){
 		a1 = Math.acos((s2**2 + s3**2 - s1**2)/(2*s2*s3))
 		a2 = Math.acos((s1**2 + s3**2 - s2**2)/(2*s1*s3))
 		a3 = Math.acos((s2**2 + s1**2 - s3**2)/(2*s2*s1))
-		return {s1: s1, s2: s2, s3: s3, a1: a1, a2: a2, a3: a3};
+		return out();
 	}
-	// SSA - two relevant cases
-	if (s2 && a3)
+	// SAS - two relevant cases
+	if (s2 && a3){
 		s3 = Math.sqrt(s1**2 + s2**2 - 2*s1*s2*Math.cos(a3))
-	if (s3 && a2)
+		return triangleSolve(out());
+	}
+	if (s3 && a2){
 		s2 = Math.sqrt(s1**2 + s3**2 - 2*s1*s3*Math.cos(a2))
-	// see what we got...
+		return triangleSolve(out());
+	}
+	// after this point, we must have one of:
+	// SSA or AAS or ASA
+	// check for SSA
+	if (a1 && s2){
+		a2 = Math.asin(s2/s1 * Math.sin(a1));
+		a3 = 180 - a1 - a2;
+		// now we can use SAS above...
+		return triangleSolve(out());
+	}
+	if (s2 && a2){
+		a1 = Math.asin(s1/s2 * Math.sin(a2));
+		a3 = 180 - a1 - a2;
+		// now we can use SAS above...
+		return triangleSolve(out());
+	}
+	// after this point, we must have one of:
+	// AAS or ASA
 	// figure the third angle out...
 	// do we got a1, a2?
 	if (a1 && a2)
@@ -39,39 +62,14 @@ function triangleSolve(data){
 	// do we got a2, a3?
 	if (a2 && a3)
 		a1 = 180 - a2 - a3;
+	// TODO optimize beyond this...
+	// at this point we have one side (s1)
+	// and ALL three angles.
 	// use law of sines to find remaining sides/angles
 	// we KNOW we got side 1... let's try to get a2 and s2
-	if (a1 && s2)
-		a2 = Math.asin(s2/s1 * Math.sin(a1));
-	if (a1 && a2)
-		s2 = (Math.sin(a2)/Math.sin(a1)) * s1;
-	// we KNOW we got side 1... let's try to get a3 and s3
-	if (a1 && s3)
-		a3 = Math.asin(s3/s1 * Math.sin(a1));
-	if (a1 && a3)
-		s3 = (Math.sin(a3)/Math.sin(a1)) * s1;
-	// try to use s2 to get s1
-	if (s2 && a2)
-		a1 = Math.asin(s1/s2 * Math.sin(a2));
-	if (a2 && a2 && a1)
-		s1 = (Math.sin(a1)/Math.sin(a2)) * s2;
-	// try to use s2 to get s3
-	if (s2 && a2 && s3)
-		a3 = Math.asin(s3/s2 * Math.sin(a2));
-	if (a2 && a2 && a3)
-		s3 = (Math.sin(a3)/Math.sin(a2)) * s2;
-	// try to use s3 to get s1
-	if (s3 && a3)
-		a1 = Math.asin(s1/s3 * Math.sin(a3));
-	if (a3 && a3 && a1)
-		s1 = (Math.sin(a1)/Math.sin(a3)) * s3;
-	// try to use s3 to get s2
-	if (s3 && a3 && s2)
-		a2 = Math.asin(s2/s3 * Math.sin(a3));
-	if (a3 && a3 && a1)
-		s2 = (Math.sin(a2)/Math.sin(a3)) * s3;
-	// might need law of cosines...lol
-	return {s1: s1, s2: s2, s3: s3, a1: a1, a2: a2, a3: a3};
+	s2 = (Math.sin(a2)/Math.sin(a1)) * s1;
+	s3 = (Math.sin(a3)/Math.sin(a1)) * s1;
+	return out();
 }
 
 module.exports = {
