@@ -17,12 +17,16 @@ function triangleSolve(data){
 	let a3 = data.a3;
 	// do law of cosines at first, if possible...
 	// SSS - one relevant case
-	if (s1 && s2 && s3)
+	if (s2 && s3){
 		a1 = Math.acos((s2**2 + s3**2 - s1**2)/(2*s2*s3))
+		a2 = Math.acos((s1**2 + s3**2 - s2**2)/(2*s1*s3))
+		a3 = Math.acos((s2**2 + s1**2 - s3**2)/(2*s2*s1))
+		return {s1: s1, s2: s2, s3: s3, a1: a1, a2: a2, a3: a3};
+	}
 	// SSA - two relevant cases
-	if (s1 && s2 && a3)
+	if (s2 && a3)
 		s3 = Math.sqrt(s1**2 + s2**2 - 2*s1*s2*Math.cos(a3))
-	if (s1 && s3 && a2)
+	if (s3 && a2)
 		s2 = Math.sqrt(s1**2 + s3**2 - 2*s1*s3*Math.cos(a2))
 	// see what we got...
 	// figure the third angle out...
@@ -47,7 +51,7 @@ function triangleSolve(data){
 	if (a1 && a3)
 		s3 = (Math.sin(a3)/Math.sin(a1)) * s1;
 	// try to use s2 to get s1
-	if (s2 && a2 && s1)
+	if (s2 && a2)
 		a1 = Math.asin(s1/s2 * Math.sin(a2));
 	if (a2 && a2 && a1)
 		s1 = (Math.sin(a1)/Math.sin(a2)) * s2;
@@ -57,7 +61,7 @@ function triangleSolve(data){
 	if (a2 && a2 && a3)
 		s3 = (Math.sin(a3)/Math.sin(a2)) * s2;
 	// try to use s3 to get s1
-	if (s3 && a3 && s1)
+	if (s3 && a3)
 		a1 = Math.asin(s1/s3 * Math.sin(a3));
 	if (a3 && a3 && a1)
 		s1 = (Math.sin(a1)/Math.sin(a3)) * s3;
