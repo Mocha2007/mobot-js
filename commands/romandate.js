@@ -1,4 +1,5 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
+const { romanNumeral } = require('../common.js');
 
 const days = [ // diēs + ? s gen
 	'sōlis', // Sunday
@@ -59,7 +60,7 @@ const numerals = [ // m s acc
 
 /** ab urbe condita */
 function auc(){
-	return new Date().getFullYear() + 753 + ' AUC';
+	return romanNumeral(new Date().getFullYear() + 753) + ' AUC';
 }
 
 function romanFULL(){

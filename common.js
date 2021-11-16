@@ -53,8 +53,38 @@ const random = {
 	},
 };
 
+
+
+/**
+ * @param {number} n 
+ * @returns {string}
+*/
+function romanNumeral(n){
+	n = Math.abs(Math.round(n)); // force in N
+	if (n < 10)
+		return romanNumeral.digits[n];
+	else if (n < 100){
+		const remainder = n % 10
+		const wholePart = Math.floor(n/10);
+		return romanNumeral(wholePart).replace(/X/g, 'C').replace(/V/g, 'L').replace(/I/g, 'X')
+			+ romanNumeral(remainder);
+	}
+	else if (n < 1000){
+		const remainder = n % 100
+		const wholePart = Math.floor(n/100);
+		return romanNumeral(wholePart).replace(/X/g, 'M').replace(/V/g, 'D').replace(/I/g, 'C')
+			+ romanNumeral(remainder);
+	}
+	// otherwise over 1K
+	const thousands = Math.floor(n/1000);
+	return new Array(thousands).fill('M').join('') + romanNumeral(n - thousands*1000);
+}
+romanNumeral.digits = ['', 'I', 'II', 'III', 'IV',
+			'V', 'VI', 'VII', 'VIII', 'IX']
+
 // exports...
 
 module.exports = {
 	random: random,
+	romanNumeral: romanNumeral,
 };
