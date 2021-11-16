@@ -1,5 +1,4 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
-// const { round } = require('../common.js');
 
 const names = [
 	'New', 'Waxing Crescent', 'First Quarter', 'Waxing Gibbous',
