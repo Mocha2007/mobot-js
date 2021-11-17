@@ -95,6 +95,7 @@ function triangleEmbed(triangle){
 			{ name: 'Angle β', value: `${triangle.a2} rad (${triangle.a2d}°)`, inline: true },
 			{ name: 'Angle γ', value: `${triangle.a3} rad (${triangle.a3d}°)`, inline: true },
 			{ name: 'Area', value: `${area(triangle.s1, triangle.s2, triangle.s3)}`},
+			{ name: 'Perimeter', value: `${triangle.s1 + triangle.s2 + triangle.s3}`},
 		)
 		.setTimestamp();
 	return { embeds: [embed] };
