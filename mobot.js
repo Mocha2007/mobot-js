@@ -14,7 +14,8 @@ for (const file of commandFiles) {
 }
 
 client.once('ready', () => {
-	console.log('Ready!');
+	console.log('mobot-js loaded!');
+	client.user.setActivity(`mocha2007.github.io`, { type: "LISTENING" });
 });
 
 client.on('interactionCreate', async interaction => {
