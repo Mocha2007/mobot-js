@@ -60,6 +60,6 @@ module.exports = {
 		.addStringOption(option => option.setName('opt').setDescription('opt').setRequired(true)),
 	async execute(interaction) {
 		// const code = interaction.options.getString('code');
-		return interaction.reply(`${embedMaker()}`).catch(console.error);
+		return interaction.reply(embedMaker()).catch(console.error);
 	},
 };

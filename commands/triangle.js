@@ -1,3 +1,4 @@
+const { MessageEmbed } = require('discord.js');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 
 // SOLVE TRIANGLES
@@ -70,10 +71,33 @@ function triangleSolve(data){
 	return out();
 }
 
+function triangleEmbed(triangle){
+	triangle.a1d = Math.round(triangle.a1 * 180/Math.PI);
+	triangle.a2d = Math.round(triangle.a2 * 180/Math.PI);
+	triangle.a3d = Math.round(triangle.a3 * 180/Math.PI);
+	const maxa = Math.max(triangle.a1d, triangle.a2d, triangle.a3d);
+	const type = Math.PI < maxa ? 'Obtuse' : maxa === 90 ? 'Right' : 'Acute';
+	const embed = new MessageEmbed()
+		.setColor('#00ffff')
+		.setTitle('Triangle')
+		.setDescription(type)
+		// .setThumbnail('https://i.imgur.com/AfFp7pu.png')
+		.addFields(
+			{ name: 'Side A', value: `${triangle.s1}`, inline: true },
+			{ name: 'Side B', value: `${triangle.s2}`, inline: true },
+			{ name: 'Side C', value: `${triangle.s3}`, inline: true },
+			{ name: 'Angle α', value: `${triangle.a1} rad (${triangle.a1d}°)`, inline: true },
+			{ name: 'Angle β', value: `${triangle.a2} rad (${triangle.a2d}°)`, inline: true },
+			{ name: 'Angle γ', value: `${triangle.a3} rad (${triangle.a3d}°)`, inline: true },
+		)
+		.setTimestamp();
+	return { embeds: [embed] };
+}
+
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('triangle')
-		.setDescription('convert between bases (supports 1-36)')
+		.setDescription('solve a triangle using a side and two other parameters')
 		.addNumberOption(option => option.setName('s1').setDescription('side A').setRequired(true))
 		.addNumberOption(option => option.setName('s2').setDescription('side B'))
 		.addNumberOption(option => option.setName('s3').setDescription('side C'))
@@ -88,8 +112,8 @@ module.exports = {
 		const a2 = interaction.options.getNumber('a2');
 		const a3 = interaction.options.getNumber('a3');
 		
-		return interaction.reply(`${JSON.stringify(
-			triangleSolve({s1: s1, s2: s2, s3: s3, a1: a1, a2: a2, a3: a3})
-		)}`).catch(console.error);
+		return interaction.reply(
+			triangleEmbed(triangleSolve({s1: s1, s2: s2, s3: s3, a1: a1, a2: a2, a3: a3}))
+		).catch(console.error);
 	},
 };
