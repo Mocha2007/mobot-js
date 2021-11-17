@@ -18,7 +18,7 @@ function digits(n){
 function toDecimal(n, base){
 	const key = digits(base);
 	const digArr = n.split('').map(
-		(char, i) => key.indexOf(char) * base ** (n.length-i));
+		(char, i) => key.indexOf(char) * base ** (n.length-i-1));
 	return sum(digArr);
 }
 
@@ -55,9 +55,8 @@ module.exports = {
 		.addNumberOption(option => option.setName('to').setDescription('target base (default: base 10)')),
 	async execute(interaction) {
 		const n = interaction.options.getString('n').toLowerCase();
-		const f = interaction.options.getNumber('f') | 10;
-		const t = interaction.options.getNumber('t') | 10;
-		
+		const f = interaction.options.getNumber('from') || 10;
+		const t = interaction.options.getNumber('to') || 10;
 		return interaction.reply(`${base(n, f, t)}`).catch(console.error);
 	},
 };

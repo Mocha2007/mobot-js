@@ -72,7 +72,7 @@ function triangleSolve(data){
 
 module.exports = {
 	data: new SlashCommandBuilder()
-		.setName('base')
+		.setName('triangle')
 		.setDescription('convert between bases (supports 1-36)')
 		.addNumberOption(option => option.setName('s1').setDescription('side A').setRequired(true))
 		.addNumberOption(option => option.setName('s2').setDescription('side B'))
@@ -89,7 +89,7 @@ module.exports = {
 		const a3 = interaction.options.getNumber('a3');
 		
 		return interaction.reply(`${triangleSolve(
-			{s1: s1, s2: s2, s3: s3, a1: a1, a2: a2, a3: a3}
+			JSON.stringify({s1: s1, s2: s2, s3: s3, a1: a1, a2: a2, a3: a3})
 		)}`).catch(console.error);
 	},
 };
