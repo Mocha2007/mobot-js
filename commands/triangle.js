@@ -73,7 +73,7 @@ function triangleSolve(data){
 
 function area(a, b, c){
 	const s = (a + b + c)/2;
-	return Math.sqrt(s * (s-a) * (s-b) * (s-c))
+	return Math.sqrt(s * (s-a) * (s-b) * (s-c));
 }
 
 function triangleEmbed(triangle){
@@ -94,7 +94,7 @@ function triangleEmbed(triangle){
 			{ name: 'Angle α', value: `${triangle.a1} rad (${triangle.a1d}°)`, inline: true },
 			{ name: 'Angle β', value: `${triangle.a2} rad (${triangle.a2d}°)`, inline: true },
 			{ name: 'Angle γ', value: `${triangle.a3} rad (${triangle.a3d}°)`, inline: true },
-			{ name: 'Area', value: `${area(triangle.s1, triangle.s2, triangle.s1)}`},
+			{ name: 'Area', value: `${area(triangle.s1, triangle.s2, triangle.s3)}`},
 		)
 		.setTimestamp();
 	return { embeds: [embed] };
