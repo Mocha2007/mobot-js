@@ -1,7 +1,8 @@
 const fs = require('fs');
 const { Client, Collection, Intents } = require('discord.js');
-const { token } = require('./config.json');
+const { mochaId, token } = require('./config.json');
 const { log } = require('./log.js');
+const { restart } = require('./common.js');
 
 const client = new Client({ intents: [Intents.FLAGS.GUILDS] });
 
@@ -37,6 +38,10 @@ client.on('interactionCreate', async interaction => {
 		log(error);
 		return interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true });
 	}
+
+	// restart bot
+	if (interaction.commandName == 'ping' && interaction.user.id === mochaId)
+		restart(interaction);
 });
 
 client.login(token);

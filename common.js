@@ -81,6 +81,20 @@ function romanNumeral(n){
 }
 romanNumeral.digits = ['', 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX'];
 
+// https://stackoverflow.com/a/46825815/2579798
+function restart(interaction){
+	interaction.channel.send("PID: " + process.pid).catch(console.error);
+	setTimeout(() => {
+		process.on("exit", () => {
+			require("child_process").spawn(process.argv.shift(), process.argv, {
+				cwd: process.cwd(),
+				detached : true,
+				stdio: "inherit"
+			});
+		});
+		process.exit();
+	}, 5000);
+}
 
 /** @param {number[]} arr */
 function sum(arr){
@@ -92,5 +106,6 @@ function sum(arr){
 module.exports = {
 	random: random,
 	romanNumeral: romanNumeral,
+	restart: restart,
 	sum: sum,
 };
