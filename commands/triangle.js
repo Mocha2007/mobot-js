@@ -88,8 +88,8 @@ module.exports = {
 		const a2 = interaction.options.getNumber('a2');
 		const a3 = interaction.options.getNumber('a3');
 		
-		return interaction.reply(`${triangleSolve(
-			JSON.stringify({s1: s1, s2: s2, s3: s3, a1: a1, a2: a2, a3: a3})
+		return interaction.reply(`${JSON.stringify(
+			triangleSolve({s1: s1, s2: s2, s3: s3, a1: a1, a2: a2, a3: a3})
 		)}`).catch(console.error);
 	},
 };
