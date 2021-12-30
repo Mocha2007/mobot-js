@@ -48,5 +48,5 @@ async function tryInvite(channel){
 }
 
 function beep(){
-	console.log('\u0007');
+	process.stdout.write("\u0007");
 }
