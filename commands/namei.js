@@ -1,3 +1,4 @@
+const { MessageEmbed } = require('discord.js');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { Webpage } = require('../mochaWeb.js');
 // const { random } = require('../common.js');
@@ -20,6 +21,30 @@ async function searchDict(lang, s){
 /** @type {{string: Webpage}} */
 searchDict.pages = {};
 
+/**
+ * @param {string} lang
+ * @param {string} s dict string
+ */
+async function embed(lang, s){
+	const result = await searchDict(lang, s);
+	const def = result.split('=');
+	const name = def[0];
+
+	const exampleEmbed = new MessageEmbed()
+		.setColor('#00ffff')
+		.setTitle(name)
+		.setURL(`https://mocha2007.github.io/namei/${lang}#lemma-${name}`)
+		.setAuthor('Mocha', 'https://mocha2007.github.io/img/mo.png', 'https://mocha2007.github.io/')
+		.setTimestamp();
+	def.forEach((x, i) => {
+		exampleEmbed.addField(fieldNames[i], x, true);
+	});
+
+	return { embeds: [exampleEmbed] };
+}
+
+const fieldNames = ['word', 'type', 'defs']
+
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('namei')
@@ -29,6 +54,6 @@ module.exports = {
 	async execute(interaction) {
 		const lang = interaction.options.getString('lang');
 		const s = interaction.options.getString('s');
-		return interaction.reply(`${await searchDict(lang, s)}`).catch(console.error);
+		return interaction.reply(await embed(lang, s)).catch(console.error);
 	},
 };
