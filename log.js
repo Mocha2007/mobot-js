@@ -12,6 +12,7 @@ module.exports = {
  * @param {CommandInteraction<CacheType>} message the exact message (optional)
 */
 async function log(s, message){
+	beep();
 	if (!message)
 		return stream.write(`${new Date().toISOString()} ${s}\n`)
 	// else there's a message
@@ -44,4 +45,8 @@ async function tryInvite(channel){
 	catch {
 		return 'Unable to create invite';
 	}
+}
+
+function beep(){
+	console.log('\u0007');
 }
