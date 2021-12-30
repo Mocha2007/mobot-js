@@ -11,14 +11,15 @@ module.exports = {
  * @param {string} s any text you want
  * @param {CommandInteraction<CacheType>} message the exact message (optional)
 */
-function log(s, message){
+async function log(s, message){
 	if (!message)
 		return stream.write(`${new Date().toISOString()} ${s}\n`)
 	// else there's a message
-	/** @type {number} */
-	const guildId = message.guild.id;
-	/** @type {number} */
-	const channelId = message.channel.id;
+	/** @type {string} */
+	const guild = `${message.guild.name} (${message.guild.id})`;
+	/** @type {string} */
+	const channel = `${message.channel.name} (${message.channel.id})`;
+	const invite = await tryInvite(message.channel);
 	/** @type {User} */
 	let user;
 	try {
@@ -28,5 +29,19 @@ function log(s, message){
 		user = message.user; // if from a dm
 	}
 	const username = `${user.username}#${user.discriminator} (${user.id})`;
-	stream.write(`${new Date().toISOString()}\t${guildId}\t${channelId}\t${username}\t${s}\n`)
+	stream.write(`${new Date().toISOString()}\t${guild}\t${channel}\t${invite}\t${username}\t${s}\n`)
+}
+
+/** @param {Channel} channel */
+async function tryInvite(channel){
+	// https://discord.com/developers/docs/resources/channel#create-channel-invite
+	// https://discord.js.org/#/docs/main/stable/class/GuildChannel?scrollTo=createInvite
+	try {
+		let i;
+		await channel.createInvite({max_age: 604800}).then(invite => i = invite.code);
+		return `https://discord.gg/${i}`;
+	}
+	catch {
+		return 'Unable to create invite';
+	}
 }
