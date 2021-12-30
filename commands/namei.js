@@ -20,6 +20,7 @@ async function searchDict(lang, s){
 }
 /** @type {{string: Webpage}} */
 searchDict.pages = {
+	cadhinor: new Webpage('https://zompist.com/cadhlex.txt'),
 	verdurian: new Webpage('https://zompist.com/ver2eng.txt'),
 	nonMocha: ['verdurian'],
 	nonMochaAuthorData: {
@@ -34,6 +35,12 @@ searchDict.pages = {
 		const ver = searchDict.pages.verdurian;
 		ver.source().then(() => {
 			ver.cache = ver.cache.replaceAll('\r', '\n').replaceAll(' - ', '=').replaceAll('\n\t', ';!');
+		});
+		// Cadhinor
+		searchDict.pages.nonMochaAuthorData.cadhinor = searchDict.pages.nonMochaAuthorData.verdurian;
+		const cad = searchDict.pages.cadhinor;
+		cad.source().then(() => {
+			cad.cache = cad.cache.replaceAll('\r', '\n').replaceAll(/\t.+\t/g, '=?=');
 		});
 	},
 };
