@@ -19,26 +19,50 @@ async function searchDict(lang, s){
 	return lines.find(line => line.match(new RegExp(`.*${s}.*`, 'g')));
 }
 /** @type {{string: Webpage}} */
-searchDict.pages = {};
+searchDict.pages = {
+	verdurian: new Webpage('https://zompist.com/ver2eng.txt'),
+	nonMocha: ['verdurian'],
+	nonMochaAuthorData: {
+		verdurian: {
+			name: 'Zompist',
+			icon: 'https://zompist.com/vflag.gif',
+			url: 'https://zompist.com/',
+		}
+	},
+	setup(){
+		// convert to Mocha format
+		const ver = searchDict.pages.verdurian;
+		ver.source().then(() => {
+			ver.cache = ver.cache.replaceAll('\r', '\n').replaceAll(' - ', '=').replaceAll('\n\t', ';!');
+		});
+	},
+};
+searchDict.pages.setup();
 
 /**
  * @param {string} lang
  * @param {string} s dict string
  */
 async function embed(lang, s){
-	const result = await searchDict(lang, s);
+	const result = (await searchDict(lang, s)).slice(0, 1000);
 	const def = result.split('=');
 	const name = def[0];
 
 	const exampleEmbed = new MessageEmbed()
 		.setColor('#00ffff')
 		.setTitle(name)
-		.setURL(`https://mocha2007.github.io/namei/${lang}#lemma-${name}`)
-		.setAuthor('Mocha', 'https://mocha2007.github.io/img/mo.png', 'https://mocha2007.github.io/')
 		.setTimestamp();
 	def.forEach((x, i) => {
-		exampleEmbed.addField(fieldNames[i], x, true);
+		exampleEmbed.addField(fieldNames[i] ? fieldNames[i] : 'note', x);
 	});
+	if (searchDict.pages.nonMochaAuthorData[lang])
+		exampleEmbed.setAuthor(
+			searchDict.pages.nonMochaAuthorData[lang].name,
+			searchDict.pages.nonMochaAuthorData[lang].icon,
+			searchDict.pages.nonMochaAuthorData[lang].url);
+	else
+		exampleEmbed.setURL(`https://mocha2007.github.io/namei/${lang}#lemma-${name}`)
+			.setAuthor('Mocha', 'https://mocha2007.github.io/img/mo.png', 'https://mocha2007.github.io/');
 
 	return { embeds: [exampleEmbed] };
 }
