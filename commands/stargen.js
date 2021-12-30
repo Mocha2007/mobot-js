@@ -60,7 +60,7 @@ function bodyGen(sma, mass){
 	}
 	const planet = generateBody(sma, mass);
 	planet.orbit = generateOrbit(sma, mass);
-	planet.name = 'Sol-' + random.randint(100000, 999999);
+	// planet.name = 'Sol-' + random.randint(100000, 999999);
 	// planet.atmosphere = Atmosphere.gen(planet);
 	return planet;
 }
