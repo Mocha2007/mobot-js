@@ -1,3 +1,5 @@
 node_modules
 config.json
 mobot.log
+temp/*
+!temp/info.txt

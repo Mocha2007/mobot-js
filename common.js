@@ -53,7 +53,33 @@ const random = {
 	},
 };
 
+/** works just like in python
+ * @param {number} m min (inclusive)
+ * @param {number} [n] max (exclusive)
+ * @return {number[]}
+*/
+function range(m, n, step = 1){
+	if (step !== 1)
+		return Array.from(Array(Math.ceil((n-m)/step)).keys()).map(i => i*step+m);
+	if (n === undefined)
+		return Array.from(Array(m).keys());
+	return range(n-m).map(i => i + m);
+}
 
+// https://stackoverflow.com/a/46825815/2579798
+function restart(interaction){
+	interaction.channel.send("PID: " + process.pid).catch(console.error);
+	setTimeout(() => {
+		process.on("exit", () => {
+			require("child_process").spawn(process.argv.shift(), process.argv, {
+				cwd: process.cwd(),
+				detached : true,
+				stdio: "inherit"
+			});
+		});
+		process.exit();
+	}, 5000);
+}
 
 /**
  * @param {number} n 
@@ -81,21 +107,6 @@ function romanNumeral(n){
 }
 romanNumeral.digits = ['', 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX'];
 
-// https://stackoverflow.com/a/46825815/2579798
-function restart(interaction){
-	interaction.channel.send("PID: " + process.pid).catch(console.error);
-	setTimeout(() => {
-		process.on("exit", () => {
-			require("child_process").spawn(process.argv.shift(), process.argv, {
-				cwd: process.cwd(),
-				detached : true,
-				stdio: "inherit"
-			});
-		});
-		process.exit();
-	}, 5000);
-}
-
 /** @param {number[]} arr */
 function sum(arr){
 	return arr.reduce((a, b) => a + b, 0);
@@ -105,7 +116,8 @@ function sum(arr){
 
 module.exports = {
 	random: random,
-	romanNumeral: romanNumeral,
+	range: range,
 	restart: restart,
+	romanNumeral: romanNumeral,
 	sum: sum,
 };
