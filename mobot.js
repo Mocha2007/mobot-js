@@ -30,7 +30,7 @@ client.on('interactionCreate', async interaction => {
 
 	try {
 		await command.execute(interaction);
-		log(interaction.commandName);
+		log(interaction.commandName, interaction);
 	}
 	
 	catch (error){
