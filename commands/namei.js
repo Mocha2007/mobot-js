@@ -21,16 +21,23 @@ async function searchDict(lang, s){
 /** @type {{string: Webpage}} */
 searchDict.pages = {
 	cadhinor: new Webpage('https://zompist.com/cadhlex.txt'),
+	english: new Webpage('https://raw.githubusercontent.com/matthewreagan/WebstersEnglishDictionary/master/dictionary_compact.json'),
 	verdurian: new Webpage('https://zompist.com/ver2eng.txt'),
 	nonMocha: ['verdurian'],
 	nonMochaAuthorData: {
+		english: {
+			name: 'English',
+			icon: 'https://upload.wikimedia.org/wikipedia/en/a/a4/Flag_of_the_United_States.svg',
+			url: 'https://en.wikipedia.org/wiki/English_language',
+		},
 		verdurian: {
 			name: 'Zompist',
 			icon: 'https://zompist.com/vflag.gif',
 			url: 'https://zompist.com/',
-		}
+		},
 	},
 	setup(){
+		console.log('Setting up dictionaries...');
 		// convert to Mocha format
 		const ver = searchDict.pages.verdurian;
 		ver.source().then(() => {
@@ -41,6 +48,14 @@ searchDict.pages = {
 		const cad = searchDict.pages.cadhinor;
 		cad.source().then(() => {
 			cad.cache = cad.cache.replaceAll('\r', '\n').replaceAll(/\t.+\t/g, '=?=');
+		});
+		// English
+		const en = searchDict.pages.english;
+		en.source().then(() => {
+			let s = '';
+			for (w in en.cache)
+				s += `${w}=?=${en.cache[w]}\n`;
+			en.cache = s;
 		});
 	},
 };
