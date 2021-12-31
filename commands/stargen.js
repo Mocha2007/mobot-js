@@ -1,4 +1,4 @@
-const { MessageEmbed } = require('discord.js');
+const { MessageEmbed, MessageAttachment } = require('discord.js');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { Drawing } = require('../mochaImg.js');
 const { random, range } = require('../common.js');
@@ -112,11 +112,13 @@ function luminosity(baseLum, age, lifespan){
 function embed(mass){
 	const result = stargen(mass);
 	draw(result);
+	const attachment = new MessageAttachment('temp/temp.png', 'temp.png');
 	const exampleEmbed = new MessageEmbed()
 		.setColor('#00ffff')
 		// .setTitle(name)
 		.setAuthor('Mocha', 'https://mocha2007.github.io/img/mo.png', 'https://mocha2007.github.io/')
-		.setImage('attachment://temp/temp.png')
+		// .attachFiles(attachment)
+		// .setImage('attachment://temp.png')
 		.addField('Star', JSON.stringify(star(mass)))
 		.setTimestamp();
 	/*
@@ -129,7 +131,7 @@ function embed(mass){
 		//for (const field in planet)
 		//	exampleEmbed.addField(fieldNames[i] ? fieldNames[i] : 'note', x);
 	});
-	return { embeds: [exampleEmbed] };
+	return { embeds: [exampleEmbed], files: [attachment] };
 }
 
 /** @param {Array} planetArr */
