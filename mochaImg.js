@@ -5,7 +5,8 @@ const { createCanvas } = require('canvas');
 class Drawing {
 	constructor(){
 		// prepare canvas
-		this.canvas = createCanvas(1024, 1024);
+		this.size = 1024;
+		this.canvas = createCanvas(this.size, this.size);
 		this.ctx = this.canvas.getContext('2d');
 	}
 	/** @param {[number, number][]} nodes */

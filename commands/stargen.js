@@ -56,7 +56,7 @@ function bodyGen(sma, mass){
 		const aop = random.uniform(0, 2*pi);
 		const lan = random.uniform(0, 2*pi);
 		const man = random.uniform(0, 2*pi);
-		return {sma: s, ecc: ecc, inc: inc, aop: aop, lan: lan, lan: man};
+		return {sma: s, ecc: ecc, inc: inc, aop: aop, lan: lan, man: man};
 	}
 	const planet = generateBody(sma, mass);
 	planet.orbit = generateOrbit(sma, mass);
@@ -133,10 +133,20 @@ function embed(mass){
 }
 
 /** @param {Array} planetArr */
-function draw(planetArr){
-	const width = planetArr[planetArr.length-1].orbit.sma * 2 * 1.2; // in meters...???
-	// todo...
+function draw(planetArr, detail = 40){
 	const drawing = new Drawing();
+	const scale = drawing.size / (planetArr[planetArr.length-1].orbit.sma * 2); // px/m
+	// draw orbits
+	planetArr.forEach(planet => {
+		/** @type {number} */
+		const sma = planet.orbit.sma;
+		drawing.drawPath(range(detail+1).map(i => {
+			const [x, y] = [drawing.size/2, drawing.size/2];
+			const r = sma * scale;
+			const theta = 2*pi/detail * i;
+			return [x+r*Math.cos(theta), y+r*Math.sin(theta)];
+		}));
+	});
 	drawing.save();
 }
 
