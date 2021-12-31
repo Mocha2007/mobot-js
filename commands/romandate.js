@@ -1,3 +1,4 @@
+/* eslint-disable prefer-template */
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { romanNumeral } = require('../common.js');
 

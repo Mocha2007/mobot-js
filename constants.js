@@ -7,13 +7,13 @@ module.exports = {
 	/** m; exact; https://en.wikipedia.org/wiki/Astronomical_unit */
 	au: 149597870700,
 	/** s ; exact */
-	day: day,
+	day,
 	/** s ; exact */
-	hour: hour,
+	hour,
 	/** W; exact; zero point luminosity */
 	L_0: 3.0128e28,
 	/** s ; exact */
-	minute: minute,
+	minute,
 	pi: Math.PI,
 	/** m */
 	r_sun: 6.957e8,
@@ -22,5 +22,5 @@ module.exports = {
 	/** s ; appx; https://en.wikipedia.org/wiki/Age_of_the_universe */
 	universeAge: 13.787e9*year,
 	/** s ; exact; gregorian, average */
-	year: year,
+	year,
 };

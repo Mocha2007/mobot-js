@@ -20,7 +20,8 @@ function rootsFromInteraction(interaction){
 			fraw = interaction.options.getString('f');
 			if (fraw.match(badRegex))
 				throw new RangeError();
-			f = eval('x=>' + fraw);
+			// eslint-disable-next-line no-eval
+			f = eval(`x=>${fraw}`);
 			x0 = interaction.options.getNumber('x0') | 1.12345; // can't be between 0 and 1 otherwise JS thinks 0 is truthy
 			return parseFloat(newton(f, derivative(f), x0)); // just in case eval does something weird
 	}

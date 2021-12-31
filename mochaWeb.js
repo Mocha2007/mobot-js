@@ -19,5 +19,5 @@ class Webpage {
 }
 
 module.exports = {
-	Webpage: Webpage,
+	Webpage,
 };

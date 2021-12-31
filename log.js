@@ -3,7 +3,7 @@ const fs = require('fs');
 const stream = fs.createWriteStream('mobot.log', {flags: 'a'});
 
 module.exports = {
-	log: log,
+	log,
 };
 // stream.end();
 

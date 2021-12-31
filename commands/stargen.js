@@ -8,7 +8,7 @@ const { au, L_0, pi, r_sun, t_sun, universeAge, year } = require('../constants.j
 /** @param {number} m */
 function stargen(m, attempt = 0){
 	if (9 < attempt && attempt % 10 === 0)
-		console.warn(attempt + ' failed attempts');
+		console.warn(`${attempt} failed attempts`);
 	else if (100 < attempt)
 		// too many failed attempts... something is broken :(
 		return;
@@ -16,7 +16,7 @@ function stargen(m, attempt = 0){
 	// (scaled) HD 10180b = 0.0216; Mercury = 0.3871
 	// cf. https://en.wikipedia.org/wiki/List_of_multiplanetary_systems
 	const c = random.uniform(0.1, 0.4);
-	const startSMA = c*au*Math.pow(m, 2);
+	const startSMA = c*au*m**2;
 	const SMAList = [startSMA];
 	range(numberOfPlanets).forEach(i => SMAList[i+1] = nextSMA(SMAList[i]));
 	return SMAList.map(a => bodyGen(a, m));
@@ -37,15 +37,15 @@ function bodyGen(sma, mass){
 		s /= au * Math.sqrt(m); // scale based on ~temp
 		let mp;
 		if (0.8 < s && s < 1.5)
-			mp = Math.pow(10, random.uniform(23.8, 25.2));
+			mp = 10**random.uniform(23.8, 25.2);
 		else if (5 < s && s < 31)
-			mp = Math.pow(10, random.uniform(25.9, 28.3));
+			mp = 10**random.uniform(25.9, 28.3);
 		else
-			mp = 2*Math.pow(10, random.uniform(17, 27));
+			mp = 2*10**random.uniform(17, 27);
 		const density = densityFromMass(mp);
-		const radius = Math.pow(mp/(density*4/3*pi), 1/3);
+		const radius = (mp/(density*4/3*pi))**(1/3);
 		const albedo = random.uniform(0.1, 0.7);
-		return {mass: mp, radius: radius, albedo: albedo};
+		return {mass: mp, radius, albedo};
 	}
 	/** @param {number} s */
 	function generateOrbit(s){
@@ -56,7 +56,7 @@ function bodyGen(sma, mass){
 		const aop = random.uniform(0, 2*pi);
 		const lan = random.uniform(0, 2*pi);
 		const man = random.uniform(0, 2*pi);
-		return {sma: s, ecc: ecc, inc: inc, aop: aop, lan: lan, man: man};
+		return {sma: s, ecc, inc, aop, lan, man};
 	}
 	const planet = generateBody(sma, mass);
 	planet.orbit = generateOrbit(sma);
@@ -76,14 +76,14 @@ function densityFromMass(mass){
 
 /** @param {number} mass */
 function star(mass){
-	const s = {mass: mass};
-	s.lifespan = 3e17*Math.pow(mass, -2.5162);
+	const s = {mass};
+	s.lifespan = 3e17*mass**-2.5162;
 	s.age = random.uniform(15.5e6*year, Math.min(universeAge, s.lifespan));
-	const baseLum = 0.45 < mass ? 1.148*Math.pow(mass, 3.4751) : 0.2264*Math.pow(mass, 2.52);
+	const baseLum = 0.45 < mass ? 1.148*mass**3.4751 : 0.2264*mass**2.52;
 	s.luminosity = luminosity(baseLum, s.age, s.lifespan);
 	s.absMag = -2.5 * Math.log10(s.luminosity / L_0);
-	s.radius = r_sun*Math.pow(mass, 0.96);
-	s.temp = t_sun*Math.pow(mass, 0.54);
+	s.radius = r_sun*mass**0.96;
+	s.temp = t_sun*mass**0.54;
 	return s;
 }
 
@@ -103,7 +103,7 @@ function luminosity(baseLum, age, lifespan){
 		l = 7.08e-39 * Math.exp(91.9*f);
 	else { // white dwarf
 		const x = (age - lifespan)/(1e6*year); // time since death, Myr
-		l = 4.9 * Math.pow(x, -1.32);
+		l = 4.9 * x**-1.32;
 	}
 	return baseLum * l;
 }

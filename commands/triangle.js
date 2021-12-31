@@ -16,8 +16,9 @@ function triangleSolve(data){
 	let a2 = data.a2;
 	/** @type {number} */
 	let a3 = data.a3;
+	// eslint-disable-next-line arrow-body-style
 	const out = () => {
-		return {s1: s1, s2: s2, s3: s3, a1: a1, a2: a2, a3: a3};
+		return {s1, s2, s3, a1, a2, a3};
 	};
 	// do law of cosines at first, if possible...
 	// SSS - one relevant case
@@ -120,7 +121,7 @@ module.exports = {
 		const a3 = interaction.options.getNumber('a3');
 
 		return interaction.reply(
-			triangleEmbed(triangleSolve({s1: s1, s2: s2, s3: s3, a1: a1, a2: a2, a3: a3}))
+			triangleEmbed(triangleSolve({s1, s2, s3, a1, a2, a3}))
 		).catch(console.error);
 	},
 };

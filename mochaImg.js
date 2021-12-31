@@ -34,5 +34,5 @@ class Drawing {
 }
 
 module.exports = {
-	Drawing: Drawing,
+	Drawing,
 };

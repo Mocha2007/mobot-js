@@ -68,7 +68,7 @@ function range(m, n, step = 1){
 
 // https://stackoverflow.com/a/46825815/2579798
 function restart(interaction){
-	interaction.channel.send('PID: ' + process.pid).catch(console.error);
+	interaction.channel.send(`PID: ${process.pid}`).catch(console.error);
 	setTimeout(() => {
 		process.on('exit', () => {
 			require('child_process').spawn(process.argv.shift(), process.argv, {
@@ -115,9 +115,9 @@ function sum(arr){
 // exports...
 
 module.exports = {
-	random: random,
-	range: range,
-	restart: restart,
-	romanNumeral: romanNumeral,
-	sum: sum,
+	random,
+	range,
+	restart,
+	romanNumeral,
+	sum,
 };
