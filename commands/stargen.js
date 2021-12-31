@@ -2,7 +2,7 @@ const { MessageEmbed } = require('discord.js');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { Drawing } = require('../mochaImg.js');
 const { random, range } = require('../common.js');
-const { au, pi } = require('../constants.js');
+const { au, L_0, pi, r_sun, t_sun, universeAge, year } = require('../constants.js');
 
 // static methods
 /** @param {number} m */
@@ -75,6 +75,40 @@ function densityFromMass(mass){
 }
 
 /** @param {number} mass */
+function star(mass){
+	const s = {mass: mass};
+	s.lifespan = 3e17*Math.pow(mass, -2.5162);
+	s.age = random.uniform(15.5e6*year, Math.min(universeAge, s.lifespan));
+	const baseLum = 0.45 < mass ? 1.148*Math.pow(mass, 3.4751) : 0.2264*Math.pow(mass, 2.52);
+	s.luminosity = luminosity(baseLum, s.age, s.lifespan);
+	s.absMag = -2.5 * Math.log10(s.luminosity / L_0);
+	s.radius = r_sun*Math.pow(mass, 0.96);
+	s.temp = t_sun*Math.pow(mass, 0.54);
+	return s;
+}
+
+/** @param {number} age */
+function luminosity(baseLum, age, lifespan){
+	const f = age / lifespan;
+	let l = 1;
+	if (f < 0.6)
+		l = 0.693 * Math.exp(0.991*f);
+	else if (f < 0.9)
+		l = 0.42 * Math.exp(1.78*f);
+	else if (f < 0.93)
+		l = 1.01 * Math.exp(0.814*f);
+	else if (f < 0.97)
+		l = 3.62e-9 * Math.exp(21.7*f);
+	else if (f < 1)
+		l = 7.08e-39 * Math.exp(91.9*f);
+	else { // white dwarf
+		const x = (age - lifespan)/(1e6*year); // time since death, Myr
+		l = 4.9 * Math.pow(x, -1.32);
+	}
+	return baseLum * l;
+}
+
+/** @param {number} mass */
 function embed(mass){
 	const result = stargen(mass);
 	draw(result);
@@ -83,6 +117,7 @@ function embed(mass){
 		// .setTitle(name)
 		.setAuthor('Mocha', 'https://mocha2007.github.io/img/mo.png', 'https://mocha2007.github.io/')
 		.setImage('attachment://temp/temp.png')
+		.addField('Star', JSON.stringify(star(mass)))
 		.setTimestamp();
 	/*
 	result.forEach((x, i) => {
