@@ -11,49 +11,26 @@
         "ecmaVersion": 2019 // 2017 for async, 2019 for optional catch binding
     },
     "rules": {
-        // override eslint:recommended
-        "no-prototype-builtins": 0,
-        // mocha-defined
+		// possible problems
+        "no-constructor-return": 1,
+        "no-duplicate-imports": 1,
+        "no-prototype-builtins": 0, // override eslint:recommended
+        "no-self-compare": 1,
+        "no-unreachable-loop": 1,
+        // suggestions
         "default-case-last": 1,
         "default-param-last": 1,
         "dot-notation": 1,
         "eqeqeq": 1,
-        "indent": [
-            "error",
-            "tab",
-            {
-                // this property seems bugged
-                "FunctionDeclaration": {
-                    "body": 1,
-                    "parameters": 2
-                },
-                "SwitchCase": 1
-            }
-        ],
-        "linebreak-style": [
-            "error",
-            "windows"
-        ],
-        "no-constructor-return": 1,
-        "no-duplicate-imports": 1,
+        "new-cap": 1,
         "no-else-return": 1,
-        "no-extra-parens": 1,
         "no-labels": 1,
-        "no-self-compare": 1,
+        "no-lonely-if": 1,
         "no-sequences": 1,
         "no-shadow": 1,
-        "no-unreachable-loop": 1,
         "no-useless-concat": 1,
         "no-useless-return": 1,
         "no-void": 1,
-        "quotes": [
-            "error",
-            "single"
-        ],
-        "semi": [
-            "error",
-            "always"
-        ],
 		/* I will likely re-enable this in the future
         "strict": [
             "warn",
@@ -67,7 +44,7 @@
                 "onlyEquality": true
             }
         ],
-        // style
+		// layout and formatting
         "array-bracket-newline": [
             "warn",
             "consistent"
@@ -84,7 +61,7 @@
             "warn",
             "stroustrup"
         ],
-        // "camelcase": 1, // disabled since some keywords actually kinda need this
+        // "camelcase": 1, // temporarily disabled since some keywords actually kinda need this
         "comma-dangle": [
             "warn",
 			{
@@ -129,24 +106,38 @@
                 "ignoreUrls": true
             }
         ],
-        "new-cap": 1,
-        "no-debugger": 0,
-        "no-lonely-if": 1,
+        "indent": [
+            "warn",
+            "tab",
+            {
+                // this property seems bugged
+                "FunctionDeclaration": {
+                    "body": 1,
+                    "parameters": 2
+                },
+                "SwitchCase": 1
+            }
+        ],
+        "linebreak-style": [
+            "warn",
+            "windows"
+        ],
+        "no-extra-parens": 1,
         "no-trailing-spaces": 1,
         "no-unneeded-ternary": 1,
+        "no-var": 1,
         "padded-blocks": [
             "warn",
             "never"
         ],
-        /* I like to sort non-functions before functions... sorry...
-        "sort-keys": [
+        "prefer-const": 1,
+        "quotes": [
             "warn",
-            "asc",
-            {
-                "natural": true
-            }
+            "single"
         ],
-        */
+        "semi": 1,
+		"semi-spacing": 1,
+		"semi-style": 1,
         "sort-vars": 1,
         "space-before-blocks": [
             "warn",
@@ -163,10 +154,6 @@
         "space-in-parens": [
             "warn",
             "never"
-        ],
-		/* conflicts with space-before-blocks when solving no-case-declarations
-        "switch-colon-spacing": 1, */
-        "no-var": 1,
-        "prefer-const": 1
+        ]
     }
 }
