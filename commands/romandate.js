@@ -68,19 +68,19 @@ function romanFULL(){
 }
 
 function romanDOTW(){
-	var dotw = new Date().getDay(); // 0=sun
+	const dotw = new Date().getDay(); // 0=sun
 	return 'diēs ' + days[dotw];
 }
 
 function roman(){
-	var day = new Date().getDate(); // 1-indexed
-	var month = new Date().getMonth(); // 0-indexed
-	var year = new Date().getFullYear();
-	var nextMonth = new Date(year, month+1, 1).getMonth(); // 0-indexed
-	var numberOfDaysInTheMonth = new Date(year, month+1, 0).getDate();
-	var ides = numberOfDaysInTheMonth === 31 ? 15 : 13;
-	var nones = ides - 8;
-	var numberOfDaysBeforeNextKalends = numberOfDaysInTheMonth - (ides ? 15 : 13);
+	const day = new Date().getDate(); // 1-indexed
+	const month = new Date().getMonth(); // 0-indexed
+	const year = new Date().getFullYear();
+	const nextMonth = new Date(year, month+1, 1).getMonth(); // 0-indexed
+	const numberOfDaysInTheMonth = new Date(year, month+1, 0).getDate();
+	const ides = numberOfDaysInTheMonth === 31 ? 15 : 13;
+	const nones = ides - 8;
+	const numberOfDaysBeforeNextKalends = numberOfDaysInTheMonth - (ides ? 15 : 13);
 	console.debug(day, month, year, ';', nones, ides, numberOfDaysInTheMonth);
 	if (day === 1)
 		return 'kalendīs ' + monthsAbl[month];
@@ -107,7 +107,7 @@ module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('romandate')
 		.setDescription('show current date in latin'),
-	async execute(interaction) {
+	async execute(interaction){
 		return interaction.reply(`:eagle: ${romanFULL()}`);
 	},
 };

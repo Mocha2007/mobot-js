@@ -6,7 +6,7 @@ module.exports = {
 		.setName('romannumeral')
 		.setDescription('convert from arabic to roman numerals')
 		.addNumberOption(option => option.setName('n').setDescription('number').setRequired(true)),
-	async execute(interaction) {
+	async execute(interaction){
 		const n = interaction.options.getNumber('n');
 		return interaction.reply(`${romanNumeral(n)}`).catch(console.error);
 	},

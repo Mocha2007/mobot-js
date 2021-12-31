@@ -68,13 +68,13 @@ function range(m, n, step = 1){
 
 // https://stackoverflow.com/a/46825815/2579798
 function restart(interaction){
-	interaction.channel.send("PID: " + process.pid).catch(console.error);
+	interaction.channel.send('PID: ' + process.pid).catch(console.error);
 	setTimeout(() => {
-		process.on("exit", () => {
-			require("child_process").spawn(process.argv.shift(), process.argv, {
+		process.on('exit', () => {
+			require('child_process').spawn(process.argv.shift(), process.argv, {
 				cwd: process.cwd(),
-				detached : true,
-				stdio: "inherit"
+				detached: true,
+				stdio: 'inherit',
 			});
 		});
 		process.exit();
@@ -82,7 +82,7 @@ function restart(interaction){
 }
 
 /**
- * @param {number} n 
+ * @param {number} n
  * @returns {string}
 */
 function romanNumeral(n){
@@ -90,13 +90,13 @@ function romanNumeral(n){
 	if (n < 10)
 		return romanNumeral.digits[n];
 	else if (n < 100){
-		const remainder = n % 10
+		const remainder = n % 10;
 		const wholePart = Math.floor(n/10);
 		return romanNumeral(wholePart).replace(/X/g, 'C').replace(/V/g, 'L').replace(/I/g, 'X')
 			+ romanNumeral(remainder);
 	}
 	else if (n < 1000){
-		const remainder = n % 100
+		const remainder = n % 100;
 		const wholePart = Math.floor(n/100);
 		return romanNumeral(wholePart).replace(/X/g, 'M').replace(/V/g, 'D').replace(/I/g, 'C')
 			+ romanNumeral(remainder);

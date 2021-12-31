@@ -35,20 +35,20 @@ function bodyGen(sma, mass){
 	/** @param {number} s */
 	function generateBody(s, m){
 		s /= au * Math.sqrt(m); // scale based on ~temp
-		let mass;
+		let mp;
 		if (0.8 < s && s < 1.5)
-			mass = Math.pow(10, random.uniform(23.8, 25.2));
+			mp = Math.pow(10, random.uniform(23.8, 25.2));
 		else if (5 < s && s < 31)
-			mass = Math.pow(10, random.uniform(25.9, 28.3));
+			mp = Math.pow(10, random.uniform(25.9, 28.3));
 		else
-			mass = 2*Math.pow(10, random.uniform(17, 27));
-		const density = densityFromMass(mass);
-		const radius = Math.pow(mass/(density*4/3*pi), 1/3);
+			mp = 2*Math.pow(10, random.uniform(17, 27));
+		const density = densityFromMass(mp);
+		const radius = Math.pow(mp/(density*4/3*pi), 1/3);
 		const albedo = random.uniform(0.1, 0.7);
-		return {mass: mass, radius: radius, albedo: albedo};
+		return {mass: mp, radius: radius, albedo: albedo};
 	}
 	/** @param {number} s */
-	function generateOrbit(s, mass){
+	function generateOrbit(s){
 		// http://exoplanets.org/plots
 		// https://www.desmos.com/calculator/ixd7gm2hpy
 		const ecc = random.uniform(0, 0.21); // Math.pow(Game.rng.random(), 2.2)
@@ -59,7 +59,7 @@ function bodyGen(sma, mass){
 		return {sma: s, ecc: ecc, inc: inc, aop: aop, lan: lan, man: man};
 	}
 	const planet = generateBody(sma, mass);
-	planet.orbit = generateOrbit(sma, mass);
+	planet.orbit = generateOrbit(sma);
 	// planet.name = 'Sol-' + random.randint(100000, 999999);
 	// planet.atmosphere = Atmosphere.gen(planet);
 	return planet;
@@ -159,7 +159,7 @@ module.exports = {
 		.setName('stargen')
 		.setDescription('create a star system')
 		.addNumberOption(option => option.setName('m').setDescription('mass of the star, in solar masses')),
-	async execute(interaction) {
+	async execute(interaction){
 		const m = interaction.options.getNumber('m') || random.uniform(0.25, 1.5);
 		return interaction.reply(embed(m)).catch(console.error);
 	},

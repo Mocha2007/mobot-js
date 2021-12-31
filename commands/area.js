@@ -1,8 +1,8 @@
 const { SlashCommandBuilder, SlashCommandSubcommandBuilder } = require('@discordjs/builders');
 
 function areaFromInteraction(interaction){
-	let a, b, c, h, l, r, s;
-	switch(interaction.options.getSubcommand()){
+	let a, b, c, h, l, r, s, w;
+	switch (interaction.options.getSubcommand()){
 		case 'circle':
 			r = interaction.options.getNumber('r');
 			return Math.PI * r * r;
@@ -139,7 +139,7 @@ module.exports = {
 				.addNumberOption(option => option.setName('b').setDescription('side').setRequired(true))
 				.addNumberOption(option => option.setName('c').setDescription('side').setRequired(true))
 		),
-	async execute(interaction) {
+	async execute(interaction){
 		return interaction.reply(`${areaFromInteraction(interaction)}`).catch(console.error);
 	},
 };

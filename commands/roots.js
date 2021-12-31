@@ -3,8 +3,8 @@ const { SlashCommandBuilder, SlashCommandSubcommandBuilder } = require('@discord
 const badRegex = /[a-z]\(/gim;
 
 function rootsFromInteraction(interaction){
-	let a, b, c, d, f, v, x0;
-	switch(interaction.options.getSubcommand()){
+	let a, b, c, d, f, fraw, m, v, x0;
+	switch (interaction.options.getSubcommand()){
 		case 'linear':
 			m = interaction.options.getNumber('m');
 			b = interaction.options.getNumber('b');
@@ -14,11 +14,10 @@ function rootsFromInteraction(interaction){
 			b = interaction.options.getNumber('b');
 			c = interaction.options.getNumber('c');
 			v = -b/(2*a);
-			d = Math.sqrt(b**2 - 4*a*c)/(2*a)
+			d = Math.sqrt(b**2 - 4*a*c)/(2*a);
 			return [v-d, v+d];
 		default:
-			/** @type {string} */
-			const fraw = interaction.options.getString('f');
+			fraw = interaction.options.getString('f');
 			if (fraw.match(badRegex))
 				throw new RangeError();
 			f = eval('x=>' + fraw);
@@ -67,7 +66,7 @@ module.exports = {
 				.addStringOption(option => option.setName('f').setDescription('function of x').setRequired(true))
 				.addNumberOption(option => option.setName('x0').setDescription('initial x-value for algoithm'))
 		),
-	async execute(interaction) {
+	async execute(interaction){
 		return interaction.reply(`${rootsFromInteraction(interaction)}`).catch(console.error);
 	},
 };

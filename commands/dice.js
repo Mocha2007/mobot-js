@@ -15,7 +15,7 @@ module.exports = {
 		.addNumberOption(option => option.setName('n').setDescription('number of dice').setRequired(true))
 		.addNumberOption(option => option.setName('m').setDescription('sides on each die').setRequired(true))
 		.addNumberOption(option => option.setName('b').setDescription('bonus')),
-	async execute(interaction) {
+	async execute(interaction){
 		const n = interaction.options.getNumber('n');
 		const m = interaction.options.getNumber('m');
 		const b = interaction.options.getNumber('b') | 0;

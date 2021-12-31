@@ -10,7 +10,7 @@ module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('info')
 		.setDescription('bot info'),
-	async execute(interaction) {
+	async execute(interaction){
 		return interaction.reply(infoString);
 	},
 };

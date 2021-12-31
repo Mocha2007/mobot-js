@@ -9,14 +9,14 @@ const client = new Client({ intents: [Intents.FLAGS.GUILDS] });
 client.commands = new Collection();
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 
-for (const file of commandFiles) {
+for (const file of commandFiles){
 	const command = require(`./commands/${file}`);
 	client.commands.set(command.data.name, command);
 }
 
 client.once('ready', () => {
 	console.log('mobot-js loaded!');
-	client.user.setActivity(`mocha2007.github.io`, { type: "LISTENING" });
+	client.user.setActivity('mocha2007.github.io', { type: 'LISTENING' });
 });
 
 client.on('interactionCreate', async interaction => {
@@ -32,7 +32,7 @@ client.on('interactionCreate', async interaction => {
 		await command.execute(interaction);
 		log(interaction.commandName, interaction);
 	}
-	
+
 	catch (error){
 		console.error(error);
 		log(error);
@@ -40,7 +40,7 @@ client.on('interactionCreate', async interaction => {
 	}
 
 	// restart bot
-	if (interaction.commandName == 'ping' && interaction.user.id === mochaId)
+	if (interaction.commandName === 'ping' && interaction.user.id === mochaId)
 		restart(interaction);
 });
 

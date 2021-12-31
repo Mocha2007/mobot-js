@@ -1,5 +1,5 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const { random } = require('../common.js');
+// const { random } = require('../common.js');
 
 /** http://www.golfscript.com/golfscript/syntax.html */
 const re = /[a-zA-Z_][a-zA-Z0-9_]*|'(?:\\.|[^'])*'?|"(?:\\.|[^"])*"?|-?[0-9]+|#[^\n\r]*|./m;
@@ -39,7 +39,7 @@ const tokenFunctions = {
 	'!': a => b2i(typeof a === 'object' ? !a.length : !a),
 	'@': (a, b, c) => [b, c, a],
 	// http://www.golfscript.com/golfscript/builtin.html
-}
+};
 
 function fromToken(token){
 	if (tokenFunctions[token])
@@ -53,15 +53,19 @@ class Stack {
 	}
 	apply(f){
 		const args = [];
+		let out;
 		switch (f.length){
 			case 3:
 				args.push(this.pop());
+				// fall through
 			case 2:
 				args.push(this.pop());
+				// fall through
 			case 1:
 				args.push(this.pop());
+				// fall through
 			default:
-				const out = f(...args)
+				out = f(...args);
 				if (typeof out === 'object')
 					out.forEach(this.push);
 				else
@@ -84,7 +88,7 @@ module.exports = {
 		.setName('gs')
 		.setDescription('run a golfscript program')
 		.addStringOption(option => option.setName('code').setDescription('code').setRequired(true)),
-	async execute(interaction) {
+	async execute(interaction){
 		const code = interaction.options.getString('code');
 		return interaction.reply(`${gs(code)}`).catch(console.error);
 	},

@@ -44,7 +44,8 @@ searchDict.pages = {
 			ver.cache = ver.cache.replaceAll('\r', '\n').replaceAll(' - ', '=').replaceAll('\n\t', ';!');
 		});
 		// Cadhinor
-		searchDict.pages.nonMochaAuthorData.cadhinor = searchDict.pages.nonMochaAuthorData.verdurian;
+		searchDict.pages.nonMochaAuthorData.cadhinor =
+			searchDict.pages.nonMochaAuthorData.verdurian;
 		const cad = searchDict.pages.cadhinor;
 		cad.source().then(() => {
 			cad.cache = cad.cache.replaceAll('\r', '\n').replaceAll(/\t.+\t/g, '=?=');
@@ -53,7 +54,7 @@ searchDict.pages = {
 		const en = searchDict.pages.english;
 		en.source().then(() => {
 			let s = '';
-			for (w in en.cache)
+			for (const w in en.cache)
 				s += `${w}=?=${en.cache[w]}\n`;
 			en.cache = s;
 		});
@@ -89,7 +90,7 @@ async function embed(lang, s){
 	return { embeds: [exampleEmbed] };
 }
 
-const fieldNames = ['word', 'type', 'defs']
+const fieldNames = ['word', 'type', 'defs'];
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -97,7 +98,7 @@ module.exports = {
 		.setDescription('look up a Nameian word')
 		.addStringOption(option => option.setName('lang').setDescription('language to search').setRequired(true))
 		.addStringOption(option => option.setName('s').setDescription('search string').setRequired(true)),
-	async execute(interaction) {
+	async execute(interaction){
 		const lang = interaction.options.getString('lang');
 		const s = interaction.options.getString('s');
 		return interaction.reply(await embed(lang, s)).catch(console.error);

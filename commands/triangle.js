@@ -18,22 +18,22 @@ function triangleSolve(data){
 	let a3 = data.a3;
 	const out = () => {
 		return {s1: s1, s2: s2, s3: s3, a1: a1, a2: a2, a3: a3};
-	}
+	};
 	// do law of cosines at first, if possible...
 	// SSS - one relevant case
 	if (s2 && s3){
-		a1 = Math.acos((s2**2 + s3**2 - s1**2)/(2*s2*s3))
-		a2 = Math.acos((s1**2 + s3**2 - s2**2)/(2*s1*s3))
-		a3 = Math.acos((s2**2 + s1**2 - s3**2)/(2*s2*s1))
+		a1 = Math.acos((s2**2 + s3**2 - s1**2)/(2*s2*s3));
+		a2 = Math.acos((s1**2 + s3**2 - s2**2)/(2*s1*s3));
+		a3 = Math.acos((s2**2 + s1**2 - s3**2)/(2*s2*s1));
 		return out();
 	}
 	// SAS - two relevant cases
 	if (s2 && a3){
-		s3 = Math.sqrt(s1**2 + s2**2 - 2*s1*s2*Math.cos(a3))
+		s3 = Math.sqrt(s1**2 + s2**2 - 2*s1*s2*Math.cos(a3));
 		return triangleSolve(out());
 	}
 	if (s3 && a2){
-		s2 = Math.sqrt(s1**2 + s3**2 - 2*s1*s3*Math.cos(a2))
+		s2 = Math.sqrt(s1**2 + s3**2 - 2*s1*s3*Math.cos(a2));
 		return triangleSolve(out());
 	}
 	// after this point, we must have one of:
@@ -66,8 +66,8 @@ function triangleSolve(data){
 	// at this point we have one side (s1)
 	// and ALL three angles.
 	// use law of sines to find remaining sides
-	s2 = (Math.sin(a2)/Math.sin(a1)) * s1;
-	s3 = (Math.sin(a3)/Math.sin(a1)) * s1;
+	s2 = Math.sin(a2)/Math.sin(a1) * s1;
+	s3 = Math.sin(a3)/Math.sin(a1) * s1;
 	return out();
 }
 
@@ -95,7 +95,7 @@ function triangleEmbed(triangle){
 			{ name: 'Angle β', value: `${triangle.a2} rad (${triangle.a2d}°)`, inline: true },
 			{ name: 'Angle γ', value: `${triangle.a3} rad (${triangle.a3d}°)`, inline: true },
 			{ name: 'Area', value: `${area(triangle.s1, triangle.s2, triangle.s3)}`},
-			{ name: 'Perimeter', value: `${triangle.s1 + triangle.s2 + triangle.s3}`},
+			{ name: 'Perimeter', value: `${triangle.s1 + triangle.s2 + triangle.s3}`}
 		)
 		.setTimestamp();
 	return { embeds: [embed] };
@@ -111,14 +111,14 @@ module.exports = {
 		.addNumberOption(option => option.setName('a1').setDescription('angle alpha (rad)'))
 		.addNumberOption(option => option.setName('a2').setDescription('angle beta (rad)'))
 		.addNumberOption(option => option.setName('a3').setDescription('angle gamma (rad)')),
-	async execute(interaction) {
+	async execute(interaction){
 		const s1 = interaction.options.getNumber('s1');
 		const s2 = interaction.options.getNumber('s2');
 		const s3 = interaction.options.getNumber('s3');
 		const a1 = interaction.options.getNumber('a1');
 		const a2 = interaction.options.getNumber('a2');
 		const a3 = interaction.options.getNumber('a3');
-		
+
 		return interaction.reply(
 			triangleEmbed(triangleSolve({s1: s1, s2: s2, s3: s3, a1: a1, a2: a2, a3: a3}))
 		).catch(console.error);
