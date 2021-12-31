@@ -147,7 +147,7 @@ function draw(planetArr, detail = 40){
 			const r = sma * scale;
 			const theta = 2*pi/detail * i;
 			return [x+r*Math.cos(theta), y+r*Math.sin(theta)];
-		}));
+		}), 'white');
 	});
 	drawing.save();
 }
