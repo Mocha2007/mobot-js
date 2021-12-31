@@ -137,13 +137,15 @@ function embed(mass){
 /** @param {Array} planetArr */
 function draw(planetArr, detail = 40){
 	const drawing = new Drawing();
+	const [x, y] = [drawing.size/2, drawing.size/2];
+	// drawing.fill('black'); // bg
+	// drawing.drawDot([x, y], 1, 'yellow'); // star
 	const scale = drawing.size / (planetArr[planetArr.length-1].orbit.sma * 2); // px/m
 	// draw orbits
 	planetArr.forEach(planet => {
 		/** @type {number} */
 		const sma = planet.orbit.sma;
 		drawing.drawPath(range(detail+1).map(i => {
-			const [x, y] = [drawing.size/2, drawing.size/2];
 			const r = sma * scale;
 			const theta = 2*pi/detail * i;
 			return [x+r*Math.cos(theta), y+r*Math.sin(theta)];
@@ -158,7 +160,7 @@ module.exports = {
 		.setDescription('create a star system')
 		.addNumberOption(option => option.setName('m').setDescription('mass of the star, in solar masses')),
 	async execute(interaction) {
-		const m = interaction.options.getNumber('m') || 1;
+		const m = interaction.options.getNumber('m') || random.uniform(0.25, 1.5);
 		return interaction.reply(embed(m)).catch(console.error);
 	},
 };
